@@ -5,7 +5,7 @@ import { BrowserRouter, Switch } from 'react-router-dom'
 import RedirectUnauthenticatedRoute from '../containers/RedirectUnauthenticatedRoute'
 
 import Preloader from './Preloader'
-import SetNickname from './SetNickname'
+import SetNickname from '../containers/SetNickname'
 /* eslint-enable no-unused-vars */
 
 const Router = ({ isUserLoaded, location }) => (
