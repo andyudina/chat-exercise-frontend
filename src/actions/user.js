@@ -4,6 +4,7 @@ import { SERVER_API_URL } from '../app-constants'
 
 import {
   createUrl,
+  createUrlWithParams,
   unknownErrorOccurred,
   getErrors,
   createHeadersForJSONRequest,
@@ -39,7 +40,7 @@ export const getCurrentUser = () => {
       createUrl(BASE_USER_API_URL, 'self'))
       .then(response => {
         if (response.status >= 400) {
-          throw new Error('Failed to fecth current user')
+          throw new Error('Failed to fetch current user')
         }
         return response.json()
       })
@@ -107,7 +108,7 @@ export const updateNickname = (nickname) => {
           .then(data => ({ status: response.status, data: data }))
       })
       .then(response => {
-        if (response.status > 400) {
+        if (response.status >= 400) {
           dispatch(
             nicknameUpdateFailed(
               getErrors(response.status, response.data.errors)
@@ -156,7 +157,7 @@ export const retrieveUserChats = () => {
       createUrl(BASE_USER_API_URL, 'self', 'chats'))
       .then(response => {
         if (response.status >= 400) {
-          throw new Error('Failed to fecth recent chats')
+          throw new Error('Failed to fetch recent chats')
         }
         return response.json()
       })
@@ -164,6 +165,84 @@ export const retrieveUserChats = () => {
       .catch(err => {
         console.log(err)
         dispatch(retrieveUserChatsFailed())
+      })
+  }
+}
+
+/*
+
+  Search user by nickname
+
+*/
+
+export const USERS_FOUND = 'USERS_FOUND'
+export const SEARCH_USERS_FAILED = 'SEARCH_USERS_FAILED'
+export const START_USERS_SEARCH = 'START_USERS_SEARCH'
+
+const usersFound = (users) => {
+  return {
+    users: users,
+    type: USERS_FOUND
+  }
+}
+
+const searchUsersFailed = (errors) => {
+  return {
+    errors: errors,
+    type: SEARCH_USERS_FAILED
+  }
+}
+
+const usersSearchStarted = () => {
+  return {
+    type: START_USERS_SEARCH
+  }
+}
+
+export const searchUsers = (nickname) => {
+  return (dispatch) => {
+    if (!(nickname)) {
+      dispatch(
+        searchUsersFailed(
+          thisFieldIsRequiredError('nickname')
+        )
+      )
+      return
+    }
+    dispatch(usersSearchStarted())
+    console.log(createUrlWithParams)
+    return fetch(
+      createUrlWithParams(
+        BASE_USER_API_URL,
+        {
+          nickname: nickname
+        }
+      ))
+      .then(response => {
+        // Needed to process response data and status
+        // at the same time
+        return response
+          .json()
+          .then(data => ({ status: response.status, data: data }))
+      })
+      .then(response => {
+        if (response.status >= 400) {
+          dispatch(
+            searchUsersFailed(
+              getErrors(response.status, response.data.errors)
+            )
+          )
+          return
+        }
+        dispatch(usersFound(response.data.users))
+      })
+      .catch(err => {
+        console.log(err)
+        dispatch(
+          searchUsersFailed(
+            unknownErrorOccurred()
+          )
+        )
       })
   }
 }

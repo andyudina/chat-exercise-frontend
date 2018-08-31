@@ -50,3 +50,12 @@ export const createHeadersForJSONRequest = () => ({
   'Accept': 'application/json',
   'Content-Type': 'application/json'
 })
+
+export const createUrlWithParams = (url, getParams) => {
+  url += '?'
+  const getParamStr = Object
+    .keys(getParams)
+    .map(key => [key, getParams[key]].join('='))
+    .join('&')
+  return url + getParamStr
+}
