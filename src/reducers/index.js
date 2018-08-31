@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
-import user from './user'
+import chat from './chat'
 import search from './search'
+import user from './user'
 
 export default combineReducers({
-  user,
-  search
+  chat,
+  search,
+  user
 })

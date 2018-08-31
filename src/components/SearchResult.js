@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import { MdChevronRight } from 'react-icons/md'
+import JoinChatButton from '../containers/JoinChatButton'
 /* eslint-enable no-unused-vars */
 
 const SearchResult = ({ results, onClickCallback }) => {
@@ -11,15 +11,7 @@ const SearchResult = ({ results, onClickCallback }) => {
           result =>
             <li key={result._id} className="list-group-item">
               {result.name}
-              <span className="badge badge-primary float-right m-2"
-                onClick={
-                  (e) => {
-                    e.preventDefault()
-                    onClickCallback(result._id)
-                  }
-                }>
-                <MdChevronRight />
-              </span>
+              <JoinChatButton chatId={result._id}/>
             </li>
         )
       }

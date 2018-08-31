@@ -87,3 +87,71 @@ export const searchChats = (name) => {
       })
   }
 }
+
+/*
+
+  Join group chat
+
+*/
+
+export const JOINED_CHAT = 'JOINED_CHAT'
+export const FAILED_TO_JOIN_CHAT = 'FAILED_TO_JOIN_CHAT'
+export const ATTEMPT_TO_JOIN_CHAT = 'ATTEMPT_TO_JOIN_CHAT'
+
+const chatJoined = (chatId) => {
+  return {
+    chatId: chatId,
+    type: JOINED_CHAT
+  }
+}
+
+const failedToJoinChat = (chatId) => {
+  return {
+    chatId: chatId,
+    type: FAILED_TO_JOIN_CHAT
+  }
+}
+
+const attemptToJoinChat = (chatId) => {
+  return {
+    chatId: chatId,
+    type: ATTEMPT_TO_JOIN_CHAT
+  }
+}
+
+export const joinChat = (chatId) => {
+  return (dispatch) => {
+    if (!(chatId)) {
+      dispatch(
+        failedToJoinChat(chatId)
+      )
+      return
+    }
+    dispatch(attemptToJoinChat(chatId))
+    return fetch(
+      createUrl(BASE_CHAT_API_URL, chatId),
+      {
+        method: 'PUT'
+      })
+      .then(response => {
+        // Needed to process response data and status
+        // at the same time
+        return response
+          .json()
+          .then(data => ({ status: response.status, data: data }))
+      })
+      .then(response => {
+        if (response.status >= 400) {
+          dispatch(failedToJoinChat(chatId))
+          return
+        }
+        dispatch(chatJoined(response.data._id))
+      })
+      .catch(err => {
+        console.log(err)
+        dispatch(
+          failedToJoinChat(chatId)
+        )
+      })
+  }
+}

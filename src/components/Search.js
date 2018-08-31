@@ -57,16 +57,6 @@ class Search extends Component {
     this.props.searchChats(value)
   }
 
-  joinGroupChat (chatId) {
-    // Stub
-    console.log('join chat', chatId)
-  }
-
-  startChatWithUser (userId) {
-    // Stub
-    console.log('start chat with user', userId)
-  }
-
   foundUsers () {
     return this.state.users.length > 0
   }
@@ -143,8 +133,7 @@ class Search extends Component {
           <div className="panel-body">
             {this.foundUsers() &&
              <SearchResult
-               results={this.state.users}
-               onClickCallback={this.startChatWithUser.bind(this)}/>}
+               results={this.state.users}/>}
             {this.noUsersFound() && <NothingFound />}
             {this.userErrorOccured() && <SearchError error={this.props.userSearchError}/>}
             {this.areUsersLoading() && <Preloader />}
@@ -157,8 +146,7 @@ class Search extends Component {
           <div className="panel-body">
             {this.foundChats() &&
              <SearchResult
-               results={this.props.chats}
-               onClickCallback={this.joinGroupChat.bind(this)}/>}
+               results={this.props.chats}/>}
             {this.noChatsFound() && <NothingFound />}
             {this.chatErrorOccured() && <SearchError error={this.props.chatSearchError}/>}
             {this.areChatsLoading() && <Preloader />}
