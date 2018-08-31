@@ -6,6 +6,7 @@ import RedirectUnauthenticatedRoute from '../containers/RedirectUnauthenticatedR
 
 import Preloader from './Preloader'
 import SetNickname from '../containers/SetNickname'
+import UserChats from '../containers/UserChats'
 /* eslint-enable no-unused-vars */
 
 const Router = ({ isUserLoaded, location }) => (
@@ -14,8 +15,11 @@ const Router = ({ isUserLoaded, location }) => (
       <BrowserRouter>
         <Switch location={location}>
           <RedirectUnauthenticatedRoute
-            exact path='/'
+            exact path='/nickname'
             component={SetNickname} />
+          <RedirectUnauthenticatedRoute
+            path='/'
+            component={UserChats} />
         </Switch>
       </BrowserRouter>
     }

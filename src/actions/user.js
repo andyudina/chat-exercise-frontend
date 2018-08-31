@@ -9,6 +9,8 @@ import {
   createHeadersForJSONRequest,
   thisFieldIsRequiredError } from './_utils'
 
+const BASE_USER_API_URL = createUrl(SERVER_API_URL, 'users')
+
 /*
 
   Get current user
@@ -17,8 +19,6 @@ import {
 
 export const RECEIVE_USER_INFO = 'RECEIVE_USER_INFO'
 export const RETRIEVE_CURRENT_USER_FAILED = 'RETRIEVE_CURRENT_USER_FAILED'
-
-const BASE_USER_API_URL = createUrl(SERVER_API_URL, 'users')
 
 const receiveCurrentUser = (json) => {
   return {
@@ -124,6 +124,46 @@ export const updateNickname = (nickname) => {
             unknownErrorOccurred()
           )
         )
+      })
+  }
+}
+
+/*
+
+  Get chats for user
+
+*/
+
+export const RECEIVE_USER_CHATS = 'RECEIVE_USER_CHATS'
+export const RETRIEVE_USER_CHATS_FAILED = 'RETRIEVE_USER_CHATS_FAILED'
+
+const receiveUserChats = (chats) => {
+  return {
+    chats: chats,
+    type: RECEIVE_USER_CHATS
+  }
+}
+
+const retrieveUserChatsFailed = () => {
+  return {
+    type: RETRIEVE_USER_CHATS_FAILED
+  }
+}
+
+export const retrieveUserChats = () => {
+  return (dispatch) => {
+    return fetch(
+      createUrl(BASE_USER_API_URL, 'self', 'chats'))
+      .then(response => {
+        if (response.status >= 400) {
+          throw new Error('Failed to fecth recent chats')
+        }
+        return response.json()
+      })
+      .then(json => dispatch(receiveUserChats(json.chats)))
+      .catch(err => {
+        console.log(err)
+        dispatch(retrieveUserChatsFailed())
       })
   }
 }

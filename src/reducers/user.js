@@ -4,18 +4,50 @@ import {
 
   NICKNAME_UPDATE_STARTED,
   NICKNAME_UPDATED,
-  NICKNAME_UPDATE_FAILED } from '../actions/user'
+  NICKNAME_UPDATE_FAILED,
+
+  RECEIVE_USER_CHATS,
+  RETRIEVE_USER_CHATS_FAILED } from '../actions/user'
+
+const defaultUserNickname = 'Anon'
 
 const defaultUser = {
   isAuthenticated: null,
   isUserLoaded: false,
-  user: null,
+  user: {},
 
   isNicknameUpdating: false,
   nicknameUpdateErrors: {
     general: null,
     nickname: null
+  },
+  chats: []
+}
+
+const generateNameForPrivateChats = (chats, currentUserId) => {
+  // Generate name for private chats, using participants nicknames
+  const generateName = (chat) => {
+    let name
+    if ((chat.users.length === 1) &&
+        (chat.users[0]._id === currentUserId)) {
+      // Chat with itself is always called me
+      name = 'Me'
+    } else {
+      // Chat with other users is called by their names
+      name = chat.users
+        .filter(user => user._id !== currentUserId)
+        .map(user => (user.nickname || defaultUserNickname))
+        .join(', ')
+    }
+    return Object.assign(
+      {},
+      chat,
+      { name: name }
+    )
   }
+  return chats.map(
+    chat => chat.isGroupChat ? chat : generateName(chat)
+  )
 }
 
 const user = (state = defaultUser, action) => {
@@ -80,6 +112,18 @@ const user = (state = defaultUser, action) => {
           )
         }
       )
+    // Get current user chats
+    case RECEIVE_USER_CHATS:
+      return Object.assign(
+        {},
+        state,
+        {
+          chats: generateNameForPrivateChats(action.chats, state.user._id)
+        }
+      )
+    case RETRIEVE_USER_CHATS_FAILED:
+      // Fail silently and show previously loaded chats (if exists)
+      return state
     default:
       return state
   }

@@ -34,9 +34,8 @@ class SetNickname extends Component {
                   placeholder="Your nickname" name="nickname"
                   value={this.state.nickname}
                   onChange={(e) => {
-                      this.setState({ nickname: e.target.value })
-                    }
-                  }/>
+                    this.setState({ nickname: e.target.value })
+                  }}/>
                 {this.props.errors.nickname &&
                   <small className="text-danger">
                     {this.props.errors.nickname}
