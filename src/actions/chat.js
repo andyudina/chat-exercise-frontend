@@ -229,3 +229,82 @@ export const createPrivateChat = (userId) => {
       })
   }
 }
+
+/*
+
+  Create group chat
+
+*/
+
+export const GROUP_CHAT_CREATED = 'GROUP_CHAT_CREATED'
+export const FAILED_TO_CREATE_GROUP_CHAT = 'FAILED_TO_CREATE_GROUP_CHAT'
+export const ATTEMPT_TO_CREATE_GROUP_CHAT = 'ATTEMPT_TO_CREATE_GROUP_CHAT'
+
+const groupChatCreated = (chatId) => {
+  return {
+    chatId: chatId,
+    type: GROUP_CHAT_CREATED
+  }
+}
+
+const failedToCreateGroupChat = (errors) => {
+  return {
+    errors: errors,
+    type: FAILED_TO_CREATE_GROUP_CHAT
+  }
+}
+
+const attemptToCreateGroupChat = (userId) => {
+  return {
+    type: ATTEMPT_TO_CREATE_GROUP_CHAT
+  }
+}
+
+export const createGroupChat = (name) => {
+  return (dispatch) => {
+    if (!(name)) {
+      dispatch(
+        failedToCreateGroupChat(
+          thisFieldIsRequiredError('name')
+        )
+      )
+      return
+    }
+    dispatch(attemptToCreateGroupChat())
+    return fetch(
+      createUrl(BASE_CHAT_API_URL, 'group'),
+      {
+        method: 'POST',
+        headers: createHeadersForJSONRequest(),
+        body: JSON.stringify({
+          name: name
+        })
+      })
+      .then(response => {
+        // Needed to process response data and status
+        // at the same time
+        return response
+          .json()
+          .then(data => ({ status: response.status, data: data }))
+      })
+      .then(response => {
+        if (response.status >= 400) {
+          dispatch(
+            failedToCreateGroupChat(
+              getErrors(response.status, response.data.errors)
+            )
+          )
+          return
+        }
+        dispatch(groupChatCreated(response.data._id))
+      })
+      .catch(err => {
+        console.log(err)
+        dispatch(
+          failedToCreateGroupChat(
+            unknownErrorOccurred()
+          )
+        )
+      })
+  }
+}
