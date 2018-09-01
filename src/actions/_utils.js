@@ -59,3 +59,7 @@ export const createUrlWithParams = (url, getParams) => {
     .join('&')
   return url + getParamStr
 }
+
+export const isDate = (date) => {
+  return Object.prototype.toString.call(date) === '[object Date]'
+}

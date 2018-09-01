@@ -9,6 +9,8 @@ import SetNickname from '../containers/SetNickname'
 import UserChats from '../containers/UserChats'
 import Search from '../containers/Search'
 import CreateGroupChat from '../containers/CreateGroupChat'
+import Welcome from '../containers/Welcome'
+import Chat from '../containers/Chat'
 /* eslint-enable no-unused-vars */
 
 const Router = ({ isUserLoaded, location }) => (
@@ -26,12 +28,17 @@ const Router = ({ isUserLoaded, location }) => (
             path='/search'
             component={Search} />
           <RedirectUnauthenticatedRoute
-            path='/'
+            path='/create-group-chat'
             component={CreateGroupChat} />
+          <RedirectUnauthenticatedRoute
+            path='/welcome'
+            component={Welcome} />
+          <RedirectUnauthenticatedRoute
+            path='/chat/:chatId'
+            component={Chat} />
         </Switch>
       </BrowserRouter>
     }
-
     {!isUserLoaded && <Preloader/>}
   </div>
 )

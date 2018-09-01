@@ -9,9 +9,11 @@ import {
   RECEIVE_USER_CHATS,
   RETRIEVE_USER_CHATS_FAILED } from '../actions/user'
 
-const defaultUserNickname = 'Anon'
+import { DEFAULT_NICKNAME } from '../app-constants'
 
 const defaultUser = {
+  defaultNickname: DEFAULT_NICKNAME,
+
   isAuthenticated: null,
   isUserLoaded: false,
   user: {},
@@ -36,7 +38,7 @@ const generateNameForPrivateChats = (chats, currentUserId) => {
       // Chat with other users is called by their names
       name = chat.users
         .filter(user => user._id !== currentUserId)
-        .map(user => (user.nickname || defaultUserNickname))
+        .map(user => (user.nickname || DEFAULT_NICKNAME))
         .join(', ')
     }
     return Object.assign(

@@ -4,7 +4,7 @@ import Preloader from './Preloader'
 import ChatSearchResults from './ChatSearchResults'
 import UserSearchResults from './UserSearchResults'
 import NothingFound from './NothingFound'
-import SearchError from './SearchError'
+import Error from './Error'
 /* eslint-enable no-unused-vars */
 
 class Search extends Component {
@@ -136,7 +136,7 @@ class Search extends Component {
              <UserSearchResults
                results={this.state.users}/>}
             {this.noUsersFound() && <NothingFound />}
-            {this.userErrorOccured() && <SearchError error={this.props.userSearchError}/>}
+            {this.userErrorOccured() && <Error error={this.props.userSearchError}/>}
             {this.areUsersLoading() && <Preloader />}
           </div>
         </div>
@@ -149,7 +149,7 @@ class Search extends Component {
              <ChatSearchResults
                results={this.props.chats}/>}
             {this.noChatsFound() && <NothingFound />}
-            {this.chatErrorOccured() && <SearchError error={this.props.chatSearchError}/>}
+            {this.chatErrorOccured() && <Error error={this.props.chatSearchError}/>}
             {this.areChatsLoading() && <Preloader />}
           </div>
         </div>
