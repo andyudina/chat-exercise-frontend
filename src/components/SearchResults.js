@@ -1,9 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import JoinChatButton from '../containers/JoinChatButton'
 /* eslint-enable no-unused-vars */
 
-const SearchResult = ({ results, onClickCallback }) => {
+const SearchResults = ({ results, createButton }) => {
   return (
     <ul className="list-group">
       {
@@ -11,7 +10,7 @@ const SearchResult = ({ results, onClickCallback }) => {
           result =>
             <li key={result._id} className="list-group-item">
               {result.name}
-              <JoinChatButton chatId={result._id}/>
+              {createButton(result._id)}
             </li>
         )
       }
@@ -19,4 +18,4 @@ const SearchResult = ({ results, onClickCallback }) => {
   )
 }
 
-export default SearchResult
+export default SearchResults

@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
 import Preloader from './Preloader'
-import SearchResult from './SearchResult'
+import ChatSearchResults from './ChatSearchResults'
+import UserSearchResults from './UserSearchResults'
 import NothingFound from './NothingFound'
 import SearchError from './SearchError'
 /* eslint-enable no-unused-vars */
@@ -132,7 +133,7 @@ class Search extends Component {
           <div className="panel-heading">Users</div>
           <div className="panel-body">
             {this.foundUsers() &&
-             <SearchResult
+             <UserSearchResults
                results={this.state.users}/>}
             {this.noUsersFound() && <NothingFound />}
             {this.userErrorOccured() && <SearchError error={this.props.userSearchError}/>}
@@ -145,7 +146,7 @@ class Search extends Component {
           <div className="panel-heading">Chats</div>
           <div className="panel-body">
             {this.foundChats() &&
-             <SearchResult
+             <ChatSearchResults
                results={this.props.chats}/>}
             {this.noChatsFound() && <NothingFound />}
             {this.chatErrorOccured() && <SearchError error={this.props.chatSearchError}/>}

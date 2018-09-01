@@ -7,7 +7,8 @@ import {
   createUrlWithParams,
   unknownErrorOccurred,
   getErrors,
-  thisFieldIsRequiredError } from './_utils'
+  thisFieldIsRequiredError,
+  createHeadersForJSONRequest } from './_utils'
 
 const BASE_CHAT_API_URL = createUrl(SERVER_API_URL, 'chats')
 
@@ -151,6 +152,79 @@ export const joinChat = (chatId) => {
         console.log(err)
         dispatch(
           failedToJoinChat(chatId)
+        )
+      })
+  }
+}
+
+/*
+
+  Start private chat with user
+
+*/
+
+export const PRIVATE_CHAT_CREATED = 'PRIVATE_CHAT_CREATED'
+export const FAILED_TO_CREATE_PRIVATE_CHAT = 'FAILED_TO_CREATE_PRIVATE_CHAT'
+export const ATTEMPT_TO_CREATE_PRIVATE_CHAT = 'ATTEMPT_TO_CREATE_PRIVATE_CHAT'
+
+const privateChatCreated = (userId, chatId) => {
+  return {
+    userId: userId,
+    chatId: chatId,
+    type: PRIVATE_CHAT_CREATED
+  }
+}
+
+const failedToCreatePrivateChat = (userId) => {
+  return {
+    userId: userId,
+    type: FAILED_TO_CREATE_PRIVATE_CHAT
+  }
+}
+
+const attemptToCreatePrivateChat = (userId) => {
+  return {
+    userId: userId,
+    type: ATTEMPT_TO_CREATE_PRIVATE_CHAT
+  }
+}
+
+export const createPrivateChat = (userId) => {
+  return (dispatch) => {
+    if (!(userId)) {
+      dispatch(
+        failedToCreatePrivateChat(userId)
+      )
+      return
+    }
+    dispatch(attemptToCreatePrivateChat(userId))
+    return fetch(
+      createUrl(BASE_CHAT_API_URL, 'private'),
+      {
+        method: 'POST',
+        headers: createHeadersForJSONRequest(),
+        body: JSON.stringify({
+          user: userId
+        })
+      })
+      .then(response => {
+        // Needed to process response data and status
+        // at the same time
+        return response
+          .json()
+          .then(data => ({ status: response.status, data: data }))
+      })
+      .then(response => {
+        if (response.status >= 400) {
+          dispatch(failedToCreatePrivateChat(userId))
+          return
+        }
+        dispatch(privateChatCreated(userId, response.data._id))
+      })
+      .catch(err => {
+        console.log(err)
+        dispatch(
+          failedToCreatePrivateChat(userId)
         )
       })
   }
