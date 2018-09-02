@@ -50,7 +50,7 @@ class CreateGroupChat extends Component {
                     this.createChat()
                   }
                 }>
-                UPDATE
+                CREATE
               </button>
             </form>
           </div>

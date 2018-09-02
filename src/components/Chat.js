@@ -51,6 +51,26 @@ class Chat extends Component {
       .reduce((prevValue, value) => prevValue || value, false)
   }
 
+  loadNextPage () {
+    this.props.listMessages(
+      this.props.match.params.chatId,
+      this.props.page + 1
+    )
+  }
+
+  canLoadMoreMessages () {
+    return (
+      (this.props.isLoading === false) &&
+      (this.props.hasNextPage === true))
+  }
+
+  showPreloader () {
+    // Show preloader only when first page is being loaded
+    return (
+      (this.props.page === 1) &&
+      (this.props.isLoading))
+  }
+
   render () {
     return (
       <div style={chatStyle} className="col-md-6 card">
@@ -58,7 +78,7 @@ class Chat extends Component {
           users={this.props.chat.users || []}
           name={this.props.chat.name}
           isGroupChat={this.props.chat.isGroupChat} />
-        {this.props.isLoading && <Preloader />}
+        { this.showPreloader() && <Preloader /> }
         {
           this.props.errors.general &&
           <Error error={this.props.errors.general}/>
@@ -68,7 +88,11 @@ class Chat extends Component {
           <Error error={this.props.errors.chat}/>
         }
         <ChatMessages
+          canLoadMoreMessages={this.canLoadMoreMessages()}
+          loadNextPage={this.loadNextPage.bind(this)}
           messages={this.props.messages}
+          chatId={this.props.match.params.chatId}
+          hasNextPage={this.props.hasNextPage}
           currentUserId={this.props.currentUserId} />
         <SendMessage
           disabled={this.canNotSendMessages()}

@@ -23,11 +23,12 @@ export const CHAT_FETCHED = 'CHAT_FETCHED'
 export const FETCH_CHAT_FAILED = 'FETCH_CHAT_FAILED'
 export const START_CHAT_FEATCHING = 'START_CHAT_FEATCHING'
 
-const chatFetched = (chatId, chat, messages) => {
+const chatFetched = (chatId, chat, messages, hasNextPage) => {
   return {
     chat: chat,
     chatId: chatId,
     messages: messages,
+    hasNextPage: hasNextPage,
     type: CHAT_FETCHED
   }
 }
@@ -82,7 +83,8 @@ export const fetchChat = (chatId) => {
           chatFetched(
             chatId,
             response.data.chat,
-            response.data.messages
+            response.data.messages,
+            response.data.hasNextPage
           )
         )
       })
@@ -108,11 +110,12 @@ export const MESSAGES_FETCHED = 'MESSAGES_FETCHED'
 export const FETCH_MESSAGES_FAILED = 'FETCH_MESSAGES_FAILED'
 export const START_MESSAGES_FEATCHING = 'START_MESSAGES_FEATCHING'
 
-const messagesFetched = (chatId, page, messages) => {
+const messagesFetched = (chatId, page, messages, hasNextPage) => {
   return {
     chatId: chatId,
     page: page,
     messages: messages,
+    hasNextPage: hasNextPage,
     type: MESSAGES_FETCHED
   }
 }
@@ -154,7 +157,11 @@ export const listMessages = (chatId, page) => {
     }
     dispatch(fetchMessagesStarted(chatId))
     return fetch(
-      createUrl(BASE_CHAT_API_URL, chatId, 'messages'))
+      createUrlWithParams(
+        createUrl(BASE_CHAT_API_URL, chatId, 'messages'),
+        {
+          page: page
+        }))
       .then(response => {
         // Needed to process response data and status
         // at the same time
@@ -173,7 +180,9 @@ export const listMessages = (chatId, page) => {
         }
         dispatch(
           messagesFetched(
-            chatId, page, response.data.messages
+            chatId, page,
+            response.data.messages,
+            response.data.hasNextPage
           )
         )
       })
