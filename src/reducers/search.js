@@ -1,12 +1,12 @@
 import {
   USERS_FOUND,
   SEARCH_USERS_FAILED,
-  START_USERS_SEARCH } from '../actions/user'
+  START_USERS_SEARCH } from 'actions/user'
 
 import {
   CHATS_FOUND,
   SEARCH_CHATS_FAILED,
-  START_CHATS_SEARCH } from '../actions/chat'
+  START_CHATS_SEARCH } from 'actions/chat'
 
 const defaultSearch = {
   isSearchingUsers: false,

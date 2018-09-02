@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import UserChats from '../containers/UserChats'
-import CreateGroupChat from '../containers/CreateGroupChat'
+import UserChats from 'containers/UserChats'
+import CreateGroupChat from 'containers/CreateGroupChat'
 /* eslint-enable no-unused-vars */
 
 /*

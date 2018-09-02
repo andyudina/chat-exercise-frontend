@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
-import StartPrivateChatButton from '../containers/StartPrivateChatButton'
-import SearchResults from './SearchResults'
+import StartPrivateChatButton from 'containers/StartPrivateChatButton'
+import SearchResults from 'components/SearchResults'
 /* eslint-enable no-unused-vars */
 
 class UserSearchResults extends Component {

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
-import Error from './Error'
+import Error from 'components/Error'
 /* eslint-enable no-unused-vars */
 
 /*

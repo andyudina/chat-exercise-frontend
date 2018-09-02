@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import SetNickname from '../components/SetNickname'
-import { updateNickname } from '../actions/user'
+import SetNickname from 'components/SetNickname'
+import { updateNickname } from 'actions/user'
 
 const mapStateToProps = (state, ownProps) => ({
   errors: state.user.nicknameUpdateErrors,

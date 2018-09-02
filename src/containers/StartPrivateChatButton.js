@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import StartPrivateChatButton from '../components/StartPrivateChatButton'
-import { createPrivateChat } from '../actions/chat'
+import StartPrivateChatButton from 'components/StartPrivateChatButton'
+import { createPrivateChat } from 'actions/chat'
 
 const mapStateToProps = (state, ownProps) => ({
   hasFailed: !!state.chat.failedToCreatePrivateChat[ownProps.userId],

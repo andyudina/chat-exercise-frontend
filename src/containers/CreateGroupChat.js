@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import CreateGroupChat from '../components/CreateGroupChat'
-import { createGroupChat } from '../actions/chat'
+import CreateGroupChat from 'components/CreateGroupChat'
+import { createGroupChat } from 'actions/chat'
 
 const mapStateToProps = (state, ownProps) => ({
   errors: state.chat.chatCreateError,

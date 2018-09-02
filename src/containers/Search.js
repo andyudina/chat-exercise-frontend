@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
-import Search from '../components/Search'
-import { searchUsers } from '../actions/user'
-import { searchChats } from '../actions/chat'
+import Search from 'components/Search'
+import { searchUsers } from 'actions/user'
+import { searchChats } from 'actions/chat'
 
 const mapStateToProps = (state, ownProps) => ({
   isSearchingUsers: state.search.isSearchingUsers,

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
-import Preloader from './Preloader'
+import Preloader from 'components/Preloader'
 /* eslint-enable no-unused-vars */
 
 /*

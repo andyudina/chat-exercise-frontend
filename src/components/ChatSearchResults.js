@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
-import JoinChatButton from '../containers/JoinChatButton'
-import SearchResults from './SearchResults'
+import JoinChatButton from 'containers/JoinChatButton'
+import SearchResults from 'components/SearchResults'
 /* eslint-enable no-unused-vars */
 
 class ChatSearchResults extends Component {

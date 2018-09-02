@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
 
-import { SERVER_URL } from '../app-constants'
+import { SERVER_URL } from 'app-constants'
 
 const socket = io(SERVER_URL)
 

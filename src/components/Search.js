@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
-import Preloader from './Preloader'
-import ChatSearchResults from './ChatSearchResults'
-import UserSearchResults from './UserSearchResults'
-import NothingFound from './NothingFound'
-import Error from './Error'
+import Preloader from 'components/Preloader'
+import ChatSearchResults from 'components/ChatSearchResults'
+import UserSearchResults from 'components/UserSearchResults'
+import NothingFound from 'components/NothingFound'
+import Error from 'components/Error'
 /* eslint-enable no-unused-vars */
 
 /*

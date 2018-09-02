@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
-import ChatHeader from './ChatHeader'
-import ChatMessages from './ChatMessages'
-import SendMessage from '../containers/SendMessage'
-import Error from './Error'
-import Preloader from './Preloader'
+import ChatHeader from 'components/ChatHeader'
+import ChatMessages from 'components/ChatMessages'
+import SendMessage from 'containers/SendMessage'
+import Error from 'components/Error'
+import Preloader from 'components/Preloader'
 /* eslint-enable no-unused-vars */
 
 import {

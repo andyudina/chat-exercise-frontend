@@ -9,7 +9,7 @@ import {
 
   GROUP_CHAT_CREATED,
   FAILED_TO_CREATE_GROUP_CHAT,
-  ATTEMPT_TO_CREATE_GROUP_CHAT } from '../actions/chat'
+  ATTEMPT_TO_CREATE_GROUP_CHAT } from 'actions/chat'
 
 const defaultChat = {
   // Join chat

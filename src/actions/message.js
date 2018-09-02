@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch'
 
-import { SERVER_API_URL } from '../app-constants'
+import { SERVER_API_URL } from 'app-constants'
 
 import {
   createUrl,
@@ -9,9 +9,9 @@ import {
   getErrors,
   thisFieldIsRequiredError,
   createHeadersForJSONRequest,
-  isDate } from './_utils'
+  isDate } from 'actions/_utils'
 
-import { sendMessage } from '../sockets/api'
+import { sendMessage } from 'sockets/api'
 
 const BASE_CHAT_API_URL = createUrl(SERVER_API_URL, 'users', 'self', 'chats')
 

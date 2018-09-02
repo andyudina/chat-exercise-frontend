@@ -2,15 +2,15 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 
-import App from './containers/App'
+import App from 'containers/App'
 /* eslint-enable no-unused-vars */
 
 import ReactDOM from 'react-dom'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import configureStore from './configure-store'
-import { getCurrentUser } from './actions/user'
+import configureStore from 'configure-store'
+import { getCurrentUser } from 'actions/user'
 
 const store = configureStore()
 store.dispatch(getCurrentUser())

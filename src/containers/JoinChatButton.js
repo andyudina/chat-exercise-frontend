@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import JoinChatButton from '../components/JoinChatButton'
-import { joinChat } from '../actions/chat'
+import JoinChatButton from 'components/JoinChatButton'
+import { joinChat } from 'actions/chat'
 
 const mapStateToProps = (state, ownProps) => ({
   hasFailed: !!state.chat.failedToJoin[ownProps.chatId],

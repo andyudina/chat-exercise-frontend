@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import Chat from '../components/Chat'
-import { fetchChat, listMessages, listNewMessages } from '../actions/message'
+import Chat from 'components/Chat'
+import { fetchChat, listMessages, listNewMessages } from 'actions/message'
 
 const mapStateToProps = (state, ownProps) => ({
   chat: state.currentChat.chat,

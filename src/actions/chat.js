@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch'
 
-import { SERVER_API_URL } from '../app-constants'
+import { SERVER_API_URL } from 'app-constants'
 
 import {
   createUrl,
@@ -8,7 +8,7 @@ import {
   unknownErrorOccurred,
   getErrors,
   thisFieldIsRequiredError,
-  createHeadersForJSONRequest } from './_utils'
+  createHeadersForJSONRequest } from 'actions/_utils'
 
 import { push } from 'react-router-redux'
 

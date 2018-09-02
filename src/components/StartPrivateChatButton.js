@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
-import GoToChatButton from './GoToChatButton'
+import GoToChatButton from 'components/GoToChatButton'
 /* eslint-enable no-unused-vars */
 
 class StartPrivateChatButton extends Component {

@@ -1,7 +1,7 @@
-import chat from './chat'
-import currentChat from './currentChat'
-import search from './search'
-import user from './user'
+import chat from 'reducers/chat'
+import currentChat from 'reducers/currentChat'
+import search from 'reducers/search'
+import user from 'reducers/user'
 
 export default {
   chat,

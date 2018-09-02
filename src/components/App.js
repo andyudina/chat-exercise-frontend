@@ -3,16 +3,16 @@ import React from 'react'
 // Router
 import { ConnectedRouter } from 'react-router-redux'
 import { Route } from 'react-router'
-import { history } from '../configure-router'
+import { history } from 'configure-router'
 
-import Preloader from './Preloader'
-import RedirectUnauthenticated from '../containers/RedirectUnauthenticated'
+import Preloader from 'components/Preloader'
+import RedirectUnauthenticated from 'containers/RedirectUnauthenticated'
 
-import Search from '../containers/Search'
-import ChatMenu from './ChatMenu'
-import Welcome from '../containers/Welcome'
-import SetNickname from '../containers/SetNickname'
-import Chat from '../containers/Chat'
+import Search from 'containers/Search'
+import ChatMenu from 'components/ChatMenu'
+import Welcome from 'containers/Welcome'
+import SetNickname from 'containers/SetNickname'
+import Chat from 'containers/Chat'
 /* eslint-enable no-unused-vars */
 
 /*

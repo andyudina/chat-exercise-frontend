@@ -45,7 +45,7 @@ module.exports = {
 
   resolve: {
     // Where Webpack should look for modules.
-    modules: [paths.appNodeModules],
+    modules: [paths.appNodeModules, paths.appSrc],
     extensions: ['.js'],
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/)

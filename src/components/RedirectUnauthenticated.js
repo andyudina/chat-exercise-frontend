@@ -3,7 +3,7 @@
 import React from 'react'
 /* eslint-enable no-unused-vars */
 
-import { SERVER_URL } from '../app-constants'
+import { SERVER_URL } from 'app-constants'
 
 const RedirectUnauthenticated = ({ isAuthenticated, children }) => {
   // Redirect to external to react app link

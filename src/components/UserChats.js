@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
-import ChatList from './ChatList'
+import ChatList from 'components/ChatList'
 /* eslint-enable no-unused-vars */
 
 /*

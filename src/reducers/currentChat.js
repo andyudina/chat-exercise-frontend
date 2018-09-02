@@ -13,7 +13,7 @@ import {
 
   NEW_MESSAGES_FETCHED,
   FETCH_NEW_MESSAGES_FAILED,
-  START_NEW_MESSAGES_FEATCHING } from '../actions/message'
+  START_NEW_MESSAGES_FEATCHING } from 'actions/message'
 
 const defaultCurrentChat = {
   chat: {},

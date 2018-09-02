@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import SendMessage from '../components/SendMessage'
-import { createMessage } from '../actions/message'
+import SendMessage from 'components/SendMessage'
+import { createMessage } from 'actions/message'
 
 const mapStateToProps = (state, ownProps) => ({
   errors: state.currentChat.sendMessageErrors,

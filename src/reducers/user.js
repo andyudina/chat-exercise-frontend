@@ -7,9 +7,9 @@ import {
   NICKNAME_UPDATE_FAILED,
 
   RECEIVE_USER_CHATS,
-  RETRIEVE_USER_CHATS_FAILED } from '../actions/user'
+  RETRIEVE_USER_CHATS_FAILED } from 'actions/user'
 
-import { DEFAULT_NICKNAME } from '../app-constants'
+import { DEFAULT_NICKNAME } from 'app-constants'
 
 const defaultUser = {
   defaultNickname: DEFAULT_NICKNAME,
