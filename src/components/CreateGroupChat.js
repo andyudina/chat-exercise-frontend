@@ -3,6 +3,25 @@ import React, { Component } from 'react'
 import Preloader from './Preloader'
 /* eslint-enable no-unused-vars */
 
+/*
+
+ Styles
+
+*/
+
+const createChatStyle = {
+  alignItems: 'stretch',
+  flexGrow: 0,
+  flexShrink: 0,
+  margin: 20
+}
+
+/*
+
+ Container
+
+*/
+
 class CreateGroupChat extends Component {
   constructor (props) {
     super(props)
@@ -19,13 +38,13 @@ class CreateGroupChat extends Component {
 
   render () {
     return (
-      <div>
+      <div style={createChatStyle}>
         {!this.props.isCreating &&
         <div className="row align-items-center">
-          <div className="col-6">
+          <div>
             <form>
-              <div className="form-group">
-                <label htmlFor="nickname">Create group chat</label>
+              <div className="card-header">Create group chat</div>
+              <div className="input-group">
                 {this.props.errors.general &&
                   <div className="text-danger">
                     {this.props.errors.general}
@@ -40,18 +59,20 @@ class CreateGroupChat extends Component {
                   <small className="text-danger">
                     {this.props.errors.name}
                   </small>}
+                <span className="input-group-append">
+                  <button
+                    type="submit"
+                    className="btn btn-outline-primary"
+                    onClick={
+                      (e) => {
+                        e.preventDefault()
+                        this.createChat()
+                      }
+                    }>
+                    CREATE
+                  </button>
+                </span>
               </div>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onClick={
-                  (e) => {
-                    e.preventDefault()
-                    this.createChat()
-                  }
-                }>
-                CREATE
-              </button>
             </form>
           </div>
         </div>}

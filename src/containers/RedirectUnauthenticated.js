@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import RedirectUnauthenticatedRoute from '../components/RedirectUnauthenticatedRoute'
+import RedirectUnauthenticated from '../components/RedirectUnauthenticated'
 
 const mapStateToProps = (state, ownProps) => ({
   isAuthenticated: state.user.isAuthenticated
@@ -7,4 +7,4 @@ const mapStateToProps = (state, ownProps) => ({
 
 export default connect(
   mapStateToProps
-)(RedirectUnauthenticatedRoute)
+)(RedirectUnauthenticated)

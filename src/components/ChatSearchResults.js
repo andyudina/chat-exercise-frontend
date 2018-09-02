@@ -14,6 +14,7 @@ class ChatSearchResults extends Component {
   render () {
     return (
       <SearchResults
+        name='Chats'
         results={this.props.results}
         createButton={this.createButton}
       />

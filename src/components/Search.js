@@ -7,6 +7,24 @@ import NothingFound from './NothingFound'
 import Error from './Error'
 /* eslint-enable no-unused-vars */
 
+/*
+
+ Search
+
+*/
+
+const searchStyle = {
+  alignItems: 'stretch',
+  flexGrow: 0,
+  flexShrink: 0
+}
+
+/*
+
+ Component
+
+*/
+
 class Search extends Component {
   constructor (props) {
     super(props)
@@ -104,7 +122,7 @@ class Search extends Component {
 
   render () {
     return (
-      <div className="col-md-4">
+      <div style={searchStyle}>
         {/* Search field */}
         <div className="input-group">
           <input
@@ -129,29 +147,23 @@ class Search extends Component {
         </div>
 
         {/* Search results - users */}
-        <div className="panel panel-default">
-          <div className="panel-heading">Users</div>
-          <div className="panel-body">
-            {this.foundUsers() &&
-             <UserSearchResults
-               results={this.state.users}/>}
-            {this.noUsersFound() && <NothingFound />}
-            {this.userErrorOccured() && <Error error={this.props.userSearchError}/>}
-            {this.areUsersLoading() && <Preloader />}
-          </div>
+        <div>
+          {this.foundUsers() &&
+            <UserSearchResults
+              results={this.state.users}/>}
+          {this.noUsersFound() && <NothingFound />}
+          {this.userErrorOccured() && <Error error={this.props.userSearchError}/>}
+          {this.areUsersLoading() && <Preloader />}
         </div>
 
         {/* Search results - chats */}
-        <div className="panel panel-default">
-          <div className="panel-heading">Chats</div>
-          <div className="panel-body">
-            {this.foundChats() &&
-             <ChatSearchResults
-               results={this.props.chats}/>}
-            {this.noChatsFound() && <NothingFound />}
-            {this.chatErrorOccured() && <Error error={this.props.chatSearchError}/>}
-            {this.areChatsLoading() && <Preloader />}
-          </div>
+        <div>
+          {this.foundChats() &&
+            <ChatSearchResults
+              results={this.props.chats}/>}
+          {this.noChatsFound() && <NothingFound />}
+          {this.chatErrorOccured() && <Error error={this.props.chatSearchError}/>}
+          {this.areChatsLoading() && <Preloader />}
         </div>
       </div>
     )

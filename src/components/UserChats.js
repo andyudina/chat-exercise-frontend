@@ -3,6 +3,24 @@ import React, { Component } from 'react'
 import ChatList from './ChatList'
 /* eslint-enable no-unused-vars */
 
+/*
+
+  Styles
+
+*/
+
+const userChatsStyle = {
+  alignItems: 'stretch',
+  flexGrow: 1,
+  flexShrink: 1
+}
+
+/*
+
+  Contaienr
+
+*/
+
 class UserChats extends Component {
   constructor (props) {
     super(props)
@@ -43,10 +61,7 @@ class UserChats extends Component {
 
   render () {
     return (
-      <div className="card">
-        <div className="card-title">
-          Chats
-        </div>
+      <div style={userChatsStyle} className="card">
         {
           this.state.chats.map(
             (chats, i) => <ChatList chats={chats.chats} key={i} name={chats.name} />

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import Router from '../components/Router'
+import App from '../components/App'
 
 const mapStateToProps = (state, ownProps) => ({
   isUserLoaded: state.user.isUserLoaded
@@ -7,4 +7,4 @@ const mapStateToProps = (state, ownProps) => ({
 
 export default connect(
   mapStateToProps
-)(Router)
+)(App)

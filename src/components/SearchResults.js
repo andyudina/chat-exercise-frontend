@@ -2,9 +2,10 @@
 import React from 'react'
 /* eslint-enable no-unused-vars */
 
-const SearchResults = ({ results, createButton }) => {
+const SearchResults = ({ name, results, createButton }) => {
   return (
     <ul className="list-group">
+      <li className="list-group-item active">{ name }</li>
       {
         results.map(
           result =>

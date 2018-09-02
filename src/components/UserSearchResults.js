@@ -14,6 +14,7 @@ class UserSearchResults extends Component {
   render () {
     return (
       <SearchResults
+        name='Users'
         results={this.props.results}
         createButton={this.createButton}
       />

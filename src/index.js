@@ -2,7 +2,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 
-import Router from './containers/Router'
+import App from './containers/App'
 /* eslint-enable no-unused-vars */
 
 import ReactDOM from 'react-dom'
@@ -17,7 +17,7 @@ store.dispatch(getCurrentUser())
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router />
+    <App />
   </Provider>,
   document.getElementById('root')
 )
