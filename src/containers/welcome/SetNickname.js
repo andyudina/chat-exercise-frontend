@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import SetNickname from 'components/SetNickname'
+import SetNickname from 'components/welcome/SetNickname'
 import { updateNickname } from 'actions/user'
 
 const mapStateToProps = (state, ownProps) => ({

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import Search from 'components/Search'
+import Search from 'components/search/Search'
 import { searchUsers } from 'actions/user'
 import { searchChats } from 'actions/chat'
 

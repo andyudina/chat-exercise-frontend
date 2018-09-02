@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
-import ChatHeader from 'components/ChatHeader'
-import ChatMessages from 'components/ChatMessages'
-import SendMessage from 'containers/SendMessage'
+import ChatHeader from 'components/chat/ChatHeader'
+import ChatMessages from 'components/chat/ChatMessages'
+import SendMessage from 'containers/chat/SendMessage'
 import Error from 'components/Error'
 import Preloader from 'components/Preloader'
 /* eslint-enable no-unused-vars */
@@ -11,7 +11,7 @@ import {
   joinChat,
   leaveChat,
   onRefreshMessges
-} from '../sockets/api'
+} from 'sockets/api'
 
 /*
 

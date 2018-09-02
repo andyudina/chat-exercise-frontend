@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import StartPrivateChatButton from 'components/StartPrivateChatButton'
+import StartPrivateChatButton from 'components/search/StartPrivateChatButton'
 import { createPrivateChat } from 'actions/chat'
 
 const mapStateToProps = (state, ownProps) => ({

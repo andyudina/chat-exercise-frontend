@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
 import VisibilitySensor from 'react-visibility-sensor'
-import ChatMessage from 'components/ChatMessage'
+import ChatMessage from 'components/chat/ChatMessage'
 /* eslint-enable no-unused-vars */
 
 /*

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import UserChats from 'components/UserChats'
+import UserChats from 'components/menu/UserChats'
 import { retrieveUserChats } from 'actions/user'
 
 const mapStateToProps = (state, ownProps) => ({

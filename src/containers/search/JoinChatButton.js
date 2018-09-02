@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import JoinChatButton from 'components/JoinChatButton'
+import JoinChatButton from 'components/search/JoinChatButton'
 import { joinChat } from 'actions/chat'
 
 const mapStateToProps = (state, ownProps) => ({

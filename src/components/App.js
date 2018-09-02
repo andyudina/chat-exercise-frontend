@@ -8,11 +8,11 @@ import { history } from 'configure-router'
 import Preloader from 'components/Preloader'
 import RedirectUnauthenticated from 'containers/RedirectUnauthenticated'
 
-import Search from 'containers/Search'
-import ChatMenu from 'components/ChatMenu'
-import Welcome from 'containers/Welcome'
-import SetNickname from 'containers/SetNickname'
-import Chat from 'containers/Chat'
+import Search from 'containers/search/Search'
+import ChatMenu from 'components/menu/ChatMenu'
+import Welcome from 'containers/welcome/Welcome'
+import SetNickname from 'containers/welcome/SetNickname'
+import Chat from 'containers/chat/Chat'
 /* eslint-enable no-unused-vars */
 
 /*
