@@ -7,6 +7,12 @@ import Error from './Error'
 import Preloader from './Preloader'
 /* eslint-enable no-unused-vars */
 
+import {
+  joinChat,
+  leaveChat,
+  onRefreshMessges
+} from '../sockets/api'
+
 /*
 
   Styles
@@ -32,17 +38,41 @@ const chatStyle = {
 
 class Chat extends Component {
   componentDidMount (prevProps) {
+    // Try fetch chat
     this.props.fetchChat(this.props.match.params.chatId)
+    // Register callback to refresh messages
+    onRefreshMessges(this.refreshMessages.bind(this))
   }
 
   componentDidUpdate (prevProps) {
     if (this.props.match.params.chatId !== prevProps.match.params.chatId) {
       this.props.fetchChat(this.props.match.params.chatId)
     }
+    if (this.props.loadChatSuccessfully !== prevProps.loadChatSuccessfully) {
+      if (this.props.loadChatSuccessfully) {
+        // Join socket to listen to chat updates
+        joinChat(this.props.match.params.chatId)
+      } else {
+        // Leave socket
+        leaveChat(this.props.match.params.chatId)
+      }
+    }
+  }
+
+  refreshMessages () {
+    this.props.listNewMessages(
+      this.props.match.params.chatId,
+      this.getLastMessageDate()
+    )
   }
 
   canNotSendMessages () {
     return this.props.isLoading || this.hasErrors()
+  }
+
+  getLastMessageDate () {
+    const lastMessage = this.props.messages[this.props.messages.length - 1]
+    return new Date(lastMessage.createdAt)
   }
 
   hasErrors () {

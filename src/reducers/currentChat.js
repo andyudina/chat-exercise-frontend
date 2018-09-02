@@ -9,7 +9,11 @@ import {
 
   MESSAGES_FETCHED,
   FETCH_MESSAGES_FAILED,
-  START_MESSAGES_FEATCHING } from '../actions/message'
+  START_MESSAGES_FEATCHING,
+
+  NEW_MESSAGES_FETCHED,
+  FETCH_NEW_MESSAGES_FAILED,
+  START_NEW_MESSAGES_FEATCHING } from '../actions/message'
 
 const defaultCurrentChat = {
   chat: {},
@@ -19,6 +23,7 @@ const defaultCurrentChat = {
     chat: null,
     general: null
   },
+  loadChatSuccessfully: false,
   // Send message
   sendMessageErrors: {
     general: null,
@@ -28,6 +33,18 @@ const defaultCurrentChat = {
   // Last loaded page with messages
   lastLoadedPage: null,
   hasNextPage: false
+}
+
+const appendNewMessages = (oldMessages, newMessages) => {
+  // Append new messages excluding duplicates
+  const oldMessagesIds = Object.assign(
+    {},
+    ...oldMessages.map(message => ({ [message._id]: true }))
+  )
+  return [
+    ...oldMessages,
+    ...newMessages.filter(message => !oldMessagesIds[message._id])
+  ]
 }
 
 const currentChat = (state = defaultCurrentChat, action) => {
@@ -42,7 +59,8 @@ const currentChat = (state = defaultCurrentChat, action) => {
           isLoading: false,
           fetchErrors: defaultCurrentChat.fetchErrors,
           lastLoadedPage: 1,
-          hasNextPage: action.hasNextPage
+          hasNextPage: action.hasNextPage,
+          loadChatSuccessfully: true
         }
       )
     case FETCH_CHAT_FAILED:
@@ -54,7 +72,8 @@ const currentChat = (state = defaultCurrentChat, action) => {
           messages: defaultCurrentChat.messages,
           isLoading: false,
           fetchErrors: action.errors,
-          lastLoadedPage: null
+          lastLoadedPage: null,
+          loadChatSuccessfully: false
         }
       )
     case START_CHAT_FEATCHING:
@@ -69,10 +88,14 @@ const currentChat = (state = defaultCurrentChat, action) => {
           lastLoadedPage: null
         }
       )
+  }
+
+  // Ignore subsequent action if chat has already changed
+  if (action.chatId !== state.chat._id) { return state }
+
+  switch (action.type) {
     // Send message
     case MESSAGE_CREATED:
-      // Ignore action if chat has already changed
-      if (action.chatId !== state.chat._id) { return state }
       return Object.assign(
         {},
         state,
@@ -82,8 +105,6 @@ const currentChat = (state = defaultCurrentChat, action) => {
         }
       )
     case CREATE_MESSAGES_FAILED:
-      // Ignore action if chat has already changed
-      if (action.chatId !== state.chat._id) { return state }
       return Object.assign(
         {},
         state,
@@ -93,8 +114,6 @@ const currentChat = (state = defaultCurrentChat, action) => {
         }
       )
     case START_MESSAGE_CREATION:
-      // Ignore action if chat has already changed
-      if (action.chatId !== state.chat._id) { return state }
       return Object.assign(
         {},
         state,
@@ -103,10 +122,8 @@ const currentChat = (state = defaultCurrentChat, action) => {
           messageIsSending: true
         }
       )
-    // Fetch more messages
+    // Fetch more old messages
     case MESSAGES_FETCHED:
-      // Ignore action if chat has already changed
-      if (action.chatId !== state.chat._id) { return state }
       return Object.assign(
         {},
         state,
@@ -118,23 +135,21 @@ const currentChat = (state = defaultCurrentChat, action) => {
           isLoading: false,
           fetchErrors: defaultCurrentChat.fetchErrors,
           lastLoadedPage: action.page,
-          hasNextPage: action.hasNextPage
+          hasNextPage: action.hasNextPage,
+          loadChatSuccessfully: true
         }
       )
     case FETCH_MESSAGES_FAILED:
-      // Ignore action if chat has already changed
-      if (action.chatId !== state.chat._id) { return state }
       return Object.assign(
         {},
         state,
         {
           isLoading: false,
-          fetchErrors: action.errors
+          fetchErrors: action.errors,
+          loadChatSuccessfully: false
         }
       )
     case START_MESSAGES_FEATCHING:
-      // Ignore action if chat has already changed
-      if (action.chatId !== state.chat._id) { return state }
       return Object.assign(
         {},
         state,
@@ -143,6 +158,26 @@ const currentChat = (state = defaultCurrentChat, action) => {
           fetchErrors: defaultCurrentChat.fetchErrors
         }
       )
+    // Fetch new messages
+    // TODO: how page number will change with new messages?
+    // Fix message duplicates, caused by page change
+    case NEW_MESSAGES_FETCHED:
+      return Object.assign(
+        {},
+        state,
+        {
+          messages: appendNewMessages(
+            state.messages,
+            action.messages
+          )
+        }
+      )
+    case FETCH_NEW_MESSAGES_FAILED:
+      // Silence errors
+      return state
+    case START_NEW_MESSAGES_FEATCHING:
+      // Silence new message loading
+      return state
     default:
       return state
   }

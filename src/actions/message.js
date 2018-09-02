@@ -11,6 +11,8 @@ import {
   createHeadersForJSONRequest,
   isDate } from './_utils'
 
+import { sendMessage } from '../sockets/api'
+
 const BASE_CHAT_API_URL = createUrl(SERVER_API_URL, 'users', 'self', 'chats')
 
 /*
@@ -265,7 +267,7 @@ export const listNewMessages = (chatId, date) => {
       createUrlWithParams(
         createUrl(BASE_CHAT_API_URL, chatId, 'messages', 'new'),
         {
-          date: date
+          date: date.toISOString()
         }
       ))
       .then(response => {
@@ -378,6 +380,7 @@ export const createMessage = (chatId, message) => {
           )
           return
         }
+        sendMessage(chatId)
         dispatch(
           messageCreated(
             chatId, response.data.message
