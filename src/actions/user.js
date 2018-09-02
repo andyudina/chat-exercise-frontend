@@ -10,6 +10,8 @@ import {
   createHeadersForJSONRequest,
   thisFieldIsRequiredError } from './_utils'
 
+import { push } from 'react-router-redux'
+
 const BASE_USER_API_URL = createUrl(SERVER_API_URL, 'users')
 
 /*
@@ -117,6 +119,7 @@ export const updateNickname = (nickname) => {
           return
         }
         dispatch(nicknameUpdateSucceeded(response.data.nickname))
+        dispatch(push('/'))
       })
       .catch(err => {
         console.log(err)

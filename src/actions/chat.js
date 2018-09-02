@@ -10,6 +10,8 @@ import {
   thisFieldIsRequiredError,
   createHeadersForJSONRequest } from './_utils'
 
+import { push } from 'react-router-redux'
+
 const BASE_CHAT_API_URL = createUrl(SERVER_API_URL, 'chats')
 
 /*
@@ -147,6 +149,7 @@ export const joinChat = (chatId) => {
           return
         }
         dispatch(chatJoined(response.data._id))
+        dispatch(push('/chat/' + chatId))
       })
       .catch(err => {
         console.log(err)
@@ -220,6 +223,7 @@ export const createPrivateChat = (userId) => {
           return
         }
         dispatch(privateChatCreated(userId, response.data._id))
+        dispatch(push('/chat/' + response.data._id))
       })
       .catch(err => {
         console.log(err)
@@ -297,6 +301,7 @@ export const createGroupChat = (name) => {
           return
         }
         dispatch(groupChatCreated(response.data._id))
+        dispatch(push('/chat/' + response.data._id))
       })
       .catch(err => {
         console.log(err)

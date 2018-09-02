@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
+import { Link } from 'react-router-dom'
 /* eslint-enable no-unused-vars */
 
 /*
@@ -26,9 +27,9 @@ const welcomeStyle = {
 const Welcome = ({ nickname }) => (
   <div style={welcomeStyle}>
     <h2>Welcome, {nickname}</h2>
-    <button className="btn btn-lighy">
+    <Link to="/set-nickname" className="btn btn-lighy">
       Change nickname
-    </button>
+    </Link>
   </div>
 )
 

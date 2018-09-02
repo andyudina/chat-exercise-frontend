@@ -19,11 +19,6 @@ import {
 
 */
 
-const containerStyle = {
-  position: 'relative',
-  width: '100%'
-}
-
 const chatStyle = {
   flexDirection: 'column',
   display: 'flex',
@@ -108,32 +103,30 @@ class Chat extends Component {
 
   render () {
     return (
-      <div style={containerStyle}>
-        <div style={chatStyle} className="card">
-          <ChatHeader
-            users={this.props.chat.users || []}
-            name={this.props.chat.name}
-            isGroupChat={this.props.chat.isGroupChat} />
-          { this.showPreloader() && <Preloader /> }
-          {
-            this.props.errors.general &&
-            <Error error={this.props.errors.general}/>
-          }
-          {
-            this.props.errors.chat &&
-            <Error error={this.props.errors.chat}/>
-          }
-          <ChatMessages
-            canLoadMoreMessages={this.canLoadMoreMessages()}
-            loadNextPage={this.loadNextPage.bind(this)}
-            messages={this.props.messages}
-            chatId={this.props.match.params.chatId}
-            hasNextPage={this.props.hasNextPage}
-            currentUserId={this.props.currentUserId} />
-          <SendMessage
-            disabled={this.canNotSendMessages()}
-            chatId={this.props.chat._id}/>
-        </div>
+      <div style={chatStyle} className="card">
+        <ChatHeader
+          users={this.props.chat.users || []}
+          name={this.props.chat.name}
+          isGroupChat={this.props.chat.isGroupChat} />
+        { this.showPreloader() && <Preloader /> }
+        {
+          this.props.errors.general &&
+          <Error error={this.props.errors.general}/>
+        }
+        {
+          this.props.errors.chat &&
+          <Error error={this.props.errors.chat}/>
+        }
+        <ChatMessages
+          canLoadMoreMessages={this.canLoadMoreMessages()}
+          loadNextPage={this.loadNextPage.bind(this)}
+          messages={this.props.messages}
+          chatId={this.props.match.params.chatId}
+          hasNextPage={this.props.hasNextPage}
+          currentUserId={this.props.currentUserId} />
+        <SendMessage
+          disabled={this.canNotSendMessages()}
+          chatId={this.props.chat._id}/>
       </div>
     )
   }

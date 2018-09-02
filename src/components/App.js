@@ -1,10 +1,18 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
+// Router
+import { ConnectedRouter } from 'react-router-redux'
+import { Route } from 'react-router'
+import { history } from '../configure-router'
+
 import Preloader from './Preloader'
 import RedirectUnauthenticated from '../containers/RedirectUnauthenticated'
+
 import Search from '../containers/Search'
-import Router from './Router'
 import ChatMenu from './ChatMenu'
+import Welcome from '../containers/Welcome'
+import SetNickname from '../containers/SetNickname'
+import Chat from '../containers/Chat'
 /* eslint-enable no-unused-vars */
 
 /*
@@ -24,6 +32,11 @@ const appStyle = {
   left: 0
 }
 
+const containerStyle = {
+  position: 'relative',
+  width: '100%'
+}
+
 /*
 
  Component
@@ -34,11 +47,23 @@ const App = ({ isUserLoaded }) => (
   <div>
     {isUserLoaded &&
       <RedirectUnauthenticated>
-        <div style={appStyle}>
-          <ChatMenu/>
-          <Router/>
-          <Search/>
-        </div>
+        <ConnectedRouter history={history}>
+          <div style={appStyle}>
+            <ChatMenu />
+            <div style={containerStyle}>
+              <Route
+                exact path='/'
+                component={Welcome} />
+              <Route
+                exact path='/set-nickname'
+                component={SetNickname} />
+              <Route
+                path='/chat/:chatId'
+                component={Chat} />
+            </div>
+            <Search />
+          </div>
+        </ConnectedRouter>
       </RedirectUnauthenticated>
     }
     {!isUserLoaded && <Preloader/>}
