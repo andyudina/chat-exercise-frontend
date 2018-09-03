@@ -73,7 +73,9 @@ class Chat extends Component {
 
   getLastMessageDate () {
     const lastMessage = this.props.messages[this.props.messages.length - 1]
-    return new Date(lastMessage.createdAt)
+    if (lastMessage) { return new Date(lastMessage.createdAt) }
+    // Return chat creation date if no messages found
+    return new Date(this.props.chat.createdAt)
   }
 
   hasErrors () {
