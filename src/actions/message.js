@@ -1,19 +1,10 @@
-import fetch from 'cross-fetch'
-
-import { SERVER_API_URL } from 'app-constants'
-
 import {
-  createUrl,
-  createUrlWithParams,
-  unknownErrorOccurred,
-  getErrors,
-  thisFieldIsRequiredError,
-  createHeadersForJSONRequest,
-  isDate } from 'actions/_utils'
+  fetchChatApi,
+  listMessagesApi,
+  listNewMessagesApi,
+  createMessageApi } from 'api/message'
 
 import { sendMessage } from 'sockets/api'
-
-const BASE_CHAT_API_URL = createUrl(SERVER_API_URL, 'users', 'self', 'chats')
 
 /*
 
@@ -52,52 +43,19 @@ const chatFetchStarted = (chatId) => {
 
 export const fetchChat = (chatId) => {
   return (dispatch) => {
-    if (!(chatId)) {
-      dispatch(
-        fetchChatFailed(
-          chatId,
-          thisFieldIsRequiredError('chat')
-        )
-      )
-      return
-    }
     dispatch(chatFetchStarted(chatId))
-    return fetch(
-      createUrl(BASE_CHAT_API_URL, chatId))
-      .then(response => {
-        // Needed to process response data and status
-        // at the same time
-        return response
-          .json()
-          .then(data => ({ status: response.status, data: data }))
-      })
-      .then(response => {
-        if (response.status >= 400) {
+    fetchChatApi(chatId)
+      .then(({ errors, response }) => {
+        if (errors) { dispatch(fetchChatFailed(chatId, errors)) }
+        else {
           dispatch(
-            fetchChatFailed(
+            chatFetched(
               chatId,
-              getErrors(response.status, response.data.errors)
-            )
-          )
-          return
+              response.chat,
+              response.messages,
+              response.hasNextPage
+            ))
         }
-        dispatch(
-          chatFetched(
-            chatId,
-            response.data.chat,
-            response.data.messages,
-            response.data.hasNextPage
-          )
-        )
-      })
-      .catch(err => {
-        console.log(err)
-        dispatch(
-          fetchChatFailed(
-            chatId,
-            unknownErrorOccurred()
-          )
-        )
       })
   }
 }
@@ -139,62 +97,18 @@ const fetchMessagesStarted = (chatId) => {
 
 export const listMessages = (chatId, page) => {
   return (dispatch) => {
-    if (!(chatId)) {
-      dispatch(
-        fetchMessagesFailed(
-          chatId,
-          thisFieldIsRequiredError('chat')
-        )
-      )
-      return
-    }
-    if (!(page)) {
-      dispatch(
-        fetchMessagesFailed(
-          chatId,
-          thisFieldIsRequiredError('page')
-        )
-      )
-      return
-    }
     dispatch(fetchMessagesStarted(chatId))
-    return fetch(
-      createUrlWithParams(
-        createUrl(BASE_CHAT_API_URL, chatId, 'messages'),
-        {
-          page: page
-        }))
-      .then(response => {
-        // Needed to process response data and status
-        // at the same time
-        return response
-          .json()
-          .then(data => ({ status: response.status, data: data }))
-      })
-      .then(response => {
-        if (response.status >= 400) {
+    listMessagesApi(chatId, page)
+      .then(({ errors, response }) => {
+        if (errors) { dispatch(fetchMessagesFailed(chatId, errors)) }
+        else {
           dispatch(
-            fetchMessagesFailed(
-              chatId, getErrors(response.status, response.data.errors)
-            )
-          )
-          return
+            messagesFetched(
+              chatId, page,
+              response.messages,
+              response.hasNextPage
+            ))
         }
-        dispatch(
-          messagesFetched(
-            chatId, page,
-            response.data.messages,
-            response.data.hasNextPage
-          )
-        )
-      })
-      .catch(err => {
-        console.log(err)
-        dispatch(
-          fetchMessagesFailed(
-            chatId, unknownErrorOccurred()
-          )
-        )
       })
   }
 }
@@ -234,71 +148,13 @@ const fetchNewMessagesStarted = (chatId) => {
 
 export const listNewMessages = (chatId, date) => {
   return (dispatch) => {
-    if (!(chatId)) {
-      dispatch(
-        fetchNewMessagesFailed(
-          chatId, thisFieldIsRequiredError('chat')
-        )
-      )
-      return
-    }
-    if (!(date)) {
-      dispatch(
-        fetchNewMessagesFailed(
-          chatId,
-          thisFieldIsRequiredError('date')
-        )
-      )
-      return
-    }
-    if (!(isDate(date))) {
-      dispatch(
-        fetchNewMessagesFailed(
-          chatId,
-          {
-            date: 'Please use valid date'
-          }
-        )
-      )
-      return
-    }
     dispatch(fetchNewMessagesStarted())
-    return fetch(
-      createUrlWithParams(
-        createUrl(BASE_CHAT_API_URL, chatId, 'messages', 'new'),
-        {
-          date: date.toISOString()
+    listNewMessagesApi(chatId, date)
+      .then(({ errors, response }) => {
+        if (errors) { dispatch(fetchNewMessagesFailed(chatId, errors)) }
+        else {
+          dispatch(newMessagesFetched(chatId, response.messages))
         }
-      ))
-      .then(response => {
-        // Needed to process response data and status
-        // at the same time
-        return response
-          .json()
-          .then(data => ({ status: response.status, data: data }))
-      })
-      .then(response => {
-        if (response.status >= 400) {
-          dispatch(
-            fetchNewMessagesFailed(
-              chatId, getErrors(response.status, response.data.errors)
-            )
-          )
-          return
-        }
-        dispatch(
-          newMessagesFetched(
-            chatId, response.data.messages
-          )
-        )
-      })
-      .catch(err => {
-        console.log(err)
-        dispatch(
-          fetchNewMessagesFailed(
-            chatId, unknownErrorOccurred()
-          )
-        )
       })
   }
 }
@@ -338,62 +194,14 @@ const createMessageStarted = (chatId) => {
 
 export const createMessage = (chatId, message) => {
   return (dispatch) => {
-    if (!(chatId)) {
-      dispatch(
-        createMessageFailed(
-          chatId, thisFieldIsRequiredError('chat')
-        )
-      )
-      return
-    }
-    if (!(message)) {
-      dispatch(
-        createMessageFailed(
-          chatId, thisFieldIsRequiredError('message')
-        )
-      )
-      return
-    }
     dispatch(createMessageStarted(chatId))
-    return fetch(
-      createUrl(BASE_CHAT_API_URL, chatId, 'messages'),
-      {
-        method: 'POST',
-        headers: createHeadersForJSONRequest(),
-        body: JSON.stringify({
-          message: message
-        })
-      })
-      .then(response => {
-        // Needed to process response data and status
-        // at the same time
-        return response
-          .json()
-          .then(data => ({ status: response.status, data: data }))
-      })
-      .then(response => {
-        if (response.status >= 400) {
-          dispatch(
-            createMessageFailed(
-              chatId, getErrors(response.status, response.data.errors)
-            )
-          )
-          return
+    createMessageApi(chatId, message)
+      .then(({ errors, response }) => {
+        if (errors) { dispatch(createMessageFailed(chatId, errors)) }
+        else {
+          sendMessage(chatId)
+          dispatch(messageCreated(chatId, response.message))
         }
-        sendMessage(chatId)
-        dispatch(
-          messageCreated(
-            chatId, response.data.message
-          )
-        )
-      })
-      .catch(err => {
-        console.log(err)
-        dispatch(
-          createMessageFailed(
-            chatId, unknownErrorOccurred()
-          )
-        )
       })
   }
 }

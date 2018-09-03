@@ -1,18 +1,10 @@
-import fetch from 'cross-fetch'
-
-import { SERVER_API_URL } from 'app-constants'
-
-import {
-  createUrl,
-  createUrlWithParams,
-  unknownErrorOccurred,
-  getErrors,
-  createHeadersForJSONRequest,
-  thisFieldIsRequiredError } from 'actions/_utils'
-
 import { push } from 'react-router-redux'
 
-const BASE_USER_API_URL = createUrl(SERVER_API_URL, 'users')
+import {
+  getCurrentUserApi,
+  updateNicknameApi,
+  retrieveUserChatsApi,
+  searchUsersApi } from 'api/user'
 
 /*
 
@@ -38,18 +30,10 @@ const retrieveCurrentUserFailed = () => {
 
 export const getCurrentUser = () => {
   return (dispatch) => {
-    return fetch(
-      createUrl(BASE_USER_API_URL, 'self'))
-      .then(response => {
-        if (response.status >= 400) {
-          throw new Error('Failed to fetch current user')
-        }
-        return response.json()
-      })
-      .then(json => dispatch(receiveCurrentUser(json)))
-      .catch(err => {
-        console.log(err)
-        dispatch(retrieveCurrentUserFailed())
+    getCurrentUserApi()
+      .then(({ errors, response }) => {
+        if (errors) { dispatch(retrieveCurrentUserFailed()) }
+        else { dispatch(receiveCurrentUser(response)) }
       })
   }
 }
@@ -84,50 +68,14 @@ const nicknameUpdateFailed = (errors) => {
 
 export const updateNickname = (nickname) => {
   return (dispatch) => {
-    if (!(nickname)) {
-      dispatch(
-        nicknameUpdateFailed(
-          thisFieldIsRequiredError('nickname')
-        )
-      )
-      return
-    }
     dispatch(nicknameUpdateStarted())
-    return fetch(
-      createUrl(BASE_USER_API_URL, 'self'),
-      {
-        method: 'PUT',
-        headers: createHeadersForJSONRequest(),
-        body: JSON.stringify({
-          nickname: nickname
-        })
-      })
-      .then(response => {
-        // Needed to process response data and status
-        // at the same time
-        return response
-          .json()
-          .then(data => ({ status: response.status, data: data }))
-      })
-      .then(response => {
-        if (response.status >= 400) {
-          dispatch(
-            nicknameUpdateFailed(
-              getErrors(response.status, response.data.errors)
-            )
-          )
-          return
+    updateNicknameApi(nickname)
+      .then(({ errors, response }) => {
+        if (errors) { dispatch(nicknameUpdateFailed(errors)) }
+        else {
+          dispatch(nicknameUpdateSucceeded(response.nickname))
+          dispatch(push('/'))
         }
-        dispatch(nicknameUpdateSucceeded(response.data.nickname))
-        dispatch(push('/'))
-      })
-      .catch(err => {
-        console.log(err)
-        dispatch(
-          nicknameUpdateFailed(
-            unknownErrorOccurred()
-          )
-        )
       })
   }
 }
@@ -156,25 +104,17 @@ const retrieveUserChatsFailed = () => {
 
 export const retrieveUserChats = () => {
   return (dispatch) => {
-    return fetch(
-      createUrl(BASE_USER_API_URL, 'self', 'chats'))
-      .then(response => {
-        if (response.status >= 400) {
-          throw new Error('Failed to fetch recent chats')
-        }
-        return response.json()
-      })
-      .then(json => dispatch(receiveUserChats(json.chats)))
-      .catch(err => {
-        console.log(err)
-        dispatch(retrieveUserChatsFailed())
+    retrieveUserChatsApi()
+      .then(({ errors, response }) => {
+        if (errors) { dispatch(retrieveUserChatsFailed()) }
+        else { dispatch(receiveUserChats(response.chats)) }
       })
   }
 }
 
 /*
 
-  Search user by nickname
+  Search users by nickname
 
 */
 
@@ -204,48 +144,11 @@ const usersSearchStarted = () => {
 
 export const searchUsers = (nickname) => {
   return (dispatch) => {
-    if (!(nickname)) {
-      dispatch(
-        searchUsersFailed(
-          thisFieldIsRequiredError('nickname')
-        )
-      )
-      return
-    }
     dispatch(usersSearchStarted())
-    console.log(createUrlWithParams)
-    return fetch(
-      createUrlWithParams(
-        BASE_USER_API_URL,
-        {
-          nickname: nickname
-        }
-      ))
-      .then(response => {
-        // Needed to process response data and status
-        // at the same time
-        return response
-          .json()
-          .then(data => ({ status: response.status, data: data }))
-      })
-      .then(response => {
-        if (response.status >= 400) {
-          dispatch(
-            searchUsersFailed(
-              getErrors(response.status, response.data.errors)
-            )
-          )
-          return
-        }
-        dispatch(usersFound(response.data.users))
-      })
-      .catch(err => {
-        console.log(err)
-        dispatch(
-          searchUsersFailed(
-            unknownErrorOccurred()
-          )
-        )
+    searchUsersApi(nickname)
+      .then(({ errors, response }) => {
+        if (errors) { dispatch(searchUsersFailed(errors)) }
+        else { dispatch(usersFound(response.users)) }
       })
   }
 }

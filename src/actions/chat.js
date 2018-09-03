@@ -1,18 +1,10 @@
-import fetch from 'cross-fetch'
-
-import { SERVER_API_URL } from 'app-constants'
-
-import {
-  createUrl,
-  createUrlWithParams,
-  unknownErrorOccurred,
-  getErrors,
-  thisFieldIsRequiredError,
-  createHeadersForJSONRequest } from 'actions/_utils'
-
 import { push } from 'react-router-redux'
 
-const BASE_CHAT_API_URL = createUrl(SERVER_API_URL, 'chats')
+import {
+  searchChatsApi,
+  joinChatApi,
+  createPrivateChatApi,
+  createGroupChatApi } from 'api/chat'
 
 /*
 
@@ -46,47 +38,11 @@ const chatsSearchStarted = () => {
 
 export const searchChats = (name) => {
   return (dispatch) => {
-    if (!(name)) {
-      dispatch(
-        searchChatsFailed(
-          thisFieldIsRequiredError('name')
-        )
-      )
-      return
-    }
     dispatch(chatsSearchStarted())
-    return fetch(
-      createUrlWithParams(
-        BASE_CHAT_API_URL,
-        {
-          name: name
-        }
-      ))
-      .then(response => {
-        // Needed to process response data and status
-        // at the same time
-        return response
-          .json()
-          .then(data => ({ status: response.status, data: data }))
-      })
-      .then(response => {
-        if (response.status >= 400) {
-          dispatch(
-            searchChatsFailed(
-              getErrors(response.status, response.data.errors)
-            )
-          )
-          return
-        }
-        dispatch(chatsFound(response.data.chats))
-      })
-      .catch(err => {
-        console.log(err)
-        dispatch(
-          searchChatsFailed(
-            unknownErrorOccurred()
-          )
-        )
+    searchChatsApi(name)
+      .then(({ errors, response }) => {
+        if (errors) { dispatch(searchChatsFailed(errors)) }
+        else { dispatch(chatsFound(response.chats)) }
       })
   }
 }
@@ -124,38 +80,14 @@ const attemptToJoinChat = (chatId) => {
 
 export const joinChat = (chatId) => {
   return (dispatch) => {
-    if (!(chatId)) {
-      dispatch(
-        failedToJoinChat(chatId)
-      )
-      return
-    }
     dispatch(attemptToJoinChat(chatId))
-    return fetch(
-      createUrl(BASE_CHAT_API_URL, chatId),
-      {
-        method: 'PUT'
-      })
-      .then(response => {
-        // Needed to process response data and status
-        // at the same time
-        return response
-          .json()
-          .then(data => ({ status: response.status, data: data }))
-      })
-      .then(response => {
-        if (response.status >= 400) {
-          dispatch(failedToJoinChat(chatId))
-          return
+    joinChatApi(chatId)
+      .then(({ errors, response }) => {
+        if (errors) { dispatch(failedToJoinChat(chatId)) }
+        else {
+          dispatch(chatJoined(chatId))
+          dispatch(push('/chat/' + chatId))
         }
-        dispatch(chatJoined(response.data._id))
-        dispatch(push('/chat/' + chatId))
-      })
-      .catch(err => {
-        console.log(err)
-        dispatch(
-          failedToJoinChat(chatId)
-        )
       })
   }
 }
@@ -194,42 +126,14 @@ const attemptToCreatePrivateChat = (userId) => {
 
 export const createPrivateChat = (userId) => {
   return (dispatch) => {
-    if (!(userId)) {
-      dispatch(
-        failedToCreatePrivateChat(userId)
-      )
-      return
-    }
     dispatch(attemptToCreatePrivateChat(userId))
-    return fetch(
-      createUrl(BASE_CHAT_API_URL, 'private'),
-      {
-        method: 'POST',
-        headers: createHeadersForJSONRequest(),
-        body: JSON.stringify({
-          user: userId
-        })
-      })
-      .then(response => {
-        // Needed to process response data and status
-        // at the same time
-        return response
-          .json()
-          .then(data => ({ status: response.status, data: data }))
-      })
-      .then(response => {
-        if (response.status >= 400) {
-          dispatch(failedToCreatePrivateChat(userId))
-          return
+    createPrivateChatApi(userId)
+      .then(({ errors, response }) => {
+        if (errors) { dispatch(failedToCreatePrivateChat(userId)) }
+        else {
+          dispatch(privateChatCreated(userId, response._id))
+          dispatch(push('/chat/' + response._id))
         }
-        dispatch(privateChatCreated(userId, response.data._id))
-        dispatch(push('/chat/' + response.data._id))
-      })
-      .catch(err => {
-        console.log(err)
-        dispatch(
-          failedToCreatePrivateChat(userId)
-        )
       })
   }
 }
@@ -266,50 +170,14 @@ const attemptToCreateGroupChat = (userId) => {
 
 export const createGroupChat = (name) => {
   return (dispatch) => {
-    if (!(name)) {
-      dispatch(
-        failedToCreateGroupChat(
-          thisFieldIsRequiredError('name')
-        )
-      )
-      return
-    }
     dispatch(attemptToCreateGroupChat())
-    return fetch(
-      createUrl(BASE_CHAT_API_URL, 'group'),
-      {
-        method: 'POST',
-        headers: createHeadersForJSONRequest(),
-        body: JSON.stringify({
-          name: name
-        })
-      })
-      .then(response => {
-        // Needed to process response data and status
-        // at the same time
-        return response
-          .json()
-          .then(data => ({ status: response.status, data: data }))
-      })
-      .then(response => {
-        if (response.status >= 400) {
-          dispatch(
-            failedToCreateGroupChat(
-              getErrors(response.status, response.data.errors)
-            )
-          )
-          return
+    createGroupChatApi(name)
+      .then(({ errors, response }) => {
+        if (errors) { dispatch(failedToCreateGroupChat(errors)) }
+        else {
+          dispatch(groupChatCreated(response._id))
+          dispatch(push('/chat/' + response._id))
         }
-        dispatch(groupChatCreated(response.data._id))
-        dispatch(push('/chat/' + response.data._id))
-      })
-      .catch(err => {
-        console.log(err)
-        dispatch(
-          failedToCreateGroupChat(
-            unknownErrorOccurred()
-          )
-        )
       })
   }
 }

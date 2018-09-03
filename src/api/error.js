@@ -1,9 +1,5 @@
 import HttpStatus from 'http-status-codes'
 
-export const createUrl = (...args) => {
-  return args.join('/')
-}
-
 const errorsArrayToObject = (errors) => {
   // translate errors, created by express-validator
   // format: [ { location, msg, param } ]
@@ -44,22 +40,4 @@ export const getErrors = (status, errors) => {
     return accessDeniedErrorOccured()
   }
   return unknownErrorOccurred()
-}
-
-export const createHeadersForJSONRequest = () => ({
-  'Accept': 'application/json',
-  'Content-Type': 'application/json'
-})
-
-export const createUrlWithParams = (url, getParams) => {
-  url += '?'
-  const getParamStr = Object
-    .keys(getParams)
-    .map(key => [key, getParams[key]].join('='))
-    .join('&')
-  return url + getParamStr
-}
-
-export const isDate = (date) => {
-  return Object.prototype.toString.call(date) === '[object Date]'
 }
