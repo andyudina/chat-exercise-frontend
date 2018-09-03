@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import Welcome from 'components/welcome/Welcome'
 
 const mapStateToProps = (state, ownProps) => ({
-  nickname: state.user.user.nickname || state.user.defaultNickname
+  nickname: state.userNickname
 })
 
 export default connect(

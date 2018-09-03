@@ -1,10 +1,13 @@
 import { connect } from 'react-redux'
 import JoinChatButton from 'components/search/JoinChatButton'
 import { joinChat } from 'actions/chat'
+import {
+  isTryingToJoinGroupChat,
+  failedToJoinGroupChat } from 'reducers/getters'
 
 const mapStateToProps = (state, ownProps) => ({
-  hasFailed: !!state.chat.failedToJoin[ownProps.chatId],
-  isLoading: !!state.chat.isTryingToJoin[ownProps.chatId]
+  hasFailed: failedToJoinGroupChat(ownProps.chatId, state),
+  isLoading: isTryingToJoinGroupChat(ownProps.chatId, state)
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

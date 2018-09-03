@@ -12,7 +12,7 @@ export const getCurrentUserApi = () => {
 
 export const updateNicknameApi = (nickname) => {
   if (!(nickname)) {
-    return { errors: thisFieldIsRequiredError('nickname') }
+    return Promise.resolve({ errors: thisFieldIsRequiredError('nickname') })
   }
   const url = createUrl(BASE_USER_API_URL, 'self')
   const body = { nickname }
@@ -26,7 +26,7 @@ export const retrieveUserChatsApi = () => {
 
 export const searchUsersApi = (nickname) => {
   if (!(nickname)) {
-    return { errors: thisFieldIsRequiredError('nickname') }
+    return Promise.resolve({ errors: thisFieldIsRequiredError('nickname') })
   }
   const url = createUrlWithParams(
     BASE_USER_API_URL,

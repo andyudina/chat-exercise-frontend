@@ -11,9 +11,6 @@ import {
 const defaultSearch = {
   isSearchingUsers: false,
   isSearchingChats: false,
-  chatResults: [],
-  usersResults: [],
-  // Errors
   chatSearchError: null,
   userSearchError: null
 }
@@ -27,7 +24,6 @@ const search = (state = defaultSearch, action) => {
         state,
         {
           isSearchingUsers: false,
-          userResults: action.users,
           userSearchError: null
         }
       )
@@ -37,7 +33,6 @@ const search = (state = defaultSearch, action) => {
         state,
         {
           isSearchingUsers: false,
-          userResults: defaultSearch.userResults,
           userSearchError: (action.errors.nickname || action.errors.general)
         }
       )
@@ -57,7 +52,6 @@ const search = (state = defaultSearch, action) => {
         state,
         {
           isSearchingChats: false,
-          chatResults: action.chats,
           chatSearchError: null
         }
       )
@@ -67,7 +61,6 @@ const search = (state = defaultSearch, action) => {
         state,
         {
           isSearchingChats: false,
-          chatResults: defaultSearch.chatResults,
           chatSearchError: (action.errors.name || action.errors.general)
         }
       )

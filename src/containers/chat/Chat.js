@@ -5,12 +5,12 @@ import { fetchChat, listMessages, listNewMessages } from 'actions/message'
 const mapStateToProps = (state, ownProps) => ({
   chat: state.currentChat.chat,
   messages: state.currentChat.messages,
-  currentUserId: state.user.user._id,
-  isLoading: state.currentChat.isLoading,
-  errors: state.currentChat.fetchErrors,
+  currentUserId: state.currentUser._id,
+  isLoading: state.currentChatLoadingState.isLoading,
+  errors: state.currentChatLoadingState.fetchErrors,
   page: state.currentChat.lastLoadedPage,
   hasNextPage: state.currentChat.hasNextPage,
-  loadChatSuccessfully: state.currentChat.loadChatSuccessfully
+  loadChatSuccessfully: state.currentChatLoadingState.loadChatSuccessfully
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

@@ -7,7 +7,7 @@ const BASE_CHAT_API_URL = createUrl(SERVER_API_URL, 'chats')
 
 export const searchChatsApi = (name) => {
   if (!(name)) {
-    return { errors: thisFieldIsRequiredError('name') }
+    return Promise.resolve({ errors: thisFieldIsRequiredError('name') })
   }
   const url = createUrlWithParams(
     BASE_CHAT_API_URL,
@@ -18,7 +18,7 @@ export const searchChatsApi = (name) => {
 
 export const joinChatApi = (chatId) => {
   if (!(chatId)) {
-    return { errors: thisFieldIsRequiredError('chat') }
+    return Promise.resolve({ errors: thisFieldIsRequiredError('chat') })
   }
   const url = createUrl(BASE_CHAT_API_URL, chatId)
   return put({ url })
@@ -26,7 +26,7 @@ export const joinChatApi = (chatId) => {
 
 export const createPrivateChatApi = (userId) => {
   if (!(userId)) {
-    return { errors: thisFieldIsRequiredError('user') }
+    return Promise.resolve({ errors: thisFieldIsRequiredError('user') })
   }
   const body = { user: userId }
   const url = createUrl(BASE_CHAT_API_URL, 'private')
@@ -35,7 +35,7 @@ export const createPrivateChatApi = (userId) => {
 
 export const createGroupChatApi = (name) => {
   if (!(name)) {
-    return { errors: thisFieldIsRequiredError('name') }
+    return Promise.resolve({ errors: thisFieldIsRequiredError('name') })
   }
   const body = { name: name }
   const url = createUrl(BASE_CHAT_API_URL, 'group')

@@ -1,9 +1,10 @@
 import { connect } from 'react-redux'
 import UserChats from 'components/menu/UserChats'
 import { retrieveUserChats } from 'actions/user'
+import { geCurrentUserChats } from 'reducers/getters'
 
 const mapStateToProps = (state, ownProps) => ({
-  chats: state.user.chats
+  chats: geCurrentUserChats(state)
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

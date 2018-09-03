@@ -3,9 +3,9 @@ import SetNickname from 'components/welcome/SetNickname'
 import { updateNickname } from 'actions/user'
 
 const mapStateToProps = (state, ownProps) => ({
-  errors: state.user.nicknameUpdateErrors,
-  isUpdating: state.user.isNicknameUpdating,
-  nickname: state.user.nickname
+  errors: state.changeNicknameState.errors,
+  isUpdating: state.changeNicknameState.isUpdating,
+  nickname: state.userNickname
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

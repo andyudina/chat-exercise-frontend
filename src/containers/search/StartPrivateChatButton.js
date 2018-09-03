@@ -1,10 +1,13 @@
 import { connect } from 'react-redux'
 import StartPrivateChatButton from 'components/search/StartPrivateChatButton'
 import { createPrivateChat } from 'actions/chat'
+import {
+  isTryingToStartPrivateChat,
+  failedToStartPrivateChat } from 'reducers/getters'
 
 const mapStateToProps = (state, ownProps) => ({
-  hasFailed: !!state.chat.failedToCreatePrivateChat[ownProps.userId],
-  isLoading: !!state.chat.isTryingToCreatePrivateChat[ownProps.userId]
+  hasFailed: failedToStartPrivateChat(ownProps.userId, state),
+  isLoading: isTryingToStartPrivateChat(ownProps.userId, state)
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

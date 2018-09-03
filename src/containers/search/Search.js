@@ -4,12 +4,12 @@ import { searchUsers } from 'actions/user'
 import { searchChats } from 'actions/chat'
 
 const mapStateToProps = (state, ownProps) => ({
-  isSearchingUsers: state.search.isSearchingUsers,
-  isSearchingChats: state.search.isSearchingChats,
-  chats: state.search.chatResults,
-  users: state.search.userResults,
-  chatSearchError: state.search.chatSearchError,
-  userSearchError: state.search.userSearchError
+  isSearchingUsers: state.searchState.isSearchingUsers,
+  isSearchingChats: state.searchState.isSearchingChats,
+  chats: state.searchChatResults,
+  users: state.searchUserResults,
+  chatSearchError: state.searchState.chatSearchError,
+  userSearchError: state.searchState.userSearchError
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

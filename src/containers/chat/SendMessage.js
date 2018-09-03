@@ -3,8 +3,8 @@ import SendMessage from 'components/chat/SendMessage'
 import { createMessage } from 'actions/message'
 
 const mapStateToProps = (state, ownProps) => ({
-  errors: state.currentChat.sendMessageErrors,
-  isSending: state.currentChat.messageIsSending
+  errors: state.sendMessageState.errors,
+  isSending: state.sendMessageState.isSending
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

@@ -18,7 +18,7 @@ const createChatStyle = {
 
 /*
 
- Container
+ Component
 
 */
 
