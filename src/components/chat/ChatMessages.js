@@ -37,6 +37,12 @@ class ChatMessages extends Component {
     }
   }
 
+  componentWillUpdate (newProps) {
+    if (newProps.chatId != this.props.chatId) {
+      this.setState({ initialScrollCompleted: false })
+    } 
+  }
+
   componentDidUpdate () {
     this.scrollToBottom()
   }
