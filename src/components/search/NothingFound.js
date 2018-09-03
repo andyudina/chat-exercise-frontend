@@ -2,9 +2,14 @@
 import React from 'react'
 /* eslint-enable no-unused-vars */
 
-const NothingFound = () => (
-  <div className="alert alert-warning">
-    Ups, nothing was found
+const NothingFound = ({ name }) => (
+  <div>
+    <div className="list-group-item">
+       { name }
+    </div>
+    <div className="alert alert-warning">
+      Ups, nothing was found
+    </div>
   </div>
 )
 

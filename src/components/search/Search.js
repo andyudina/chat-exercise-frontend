@@ -151,7 +151,7 @@ class Search extends Component {
           {this.foundUsers() &&
             <UserSearchResults
               results={this.state.users}/>}
-          {this.noUsersFound() && <NothingFound />}
+          {this.noUsersFound() && <NothingFound name="Users"/>}
           {this.userErrorOccured() && <Error error={this.props.userSearchError}/>}
           {this.areUsersLoading() && <Preloader />}
         </div>
@@ -161,7 +161,7 @@ class Search extends Component {
           {this.foundChats() &&
             <ChatSearchResults
               results={this.props.chats}/>}
-          {this.noChatsFound() && <NothingFound />}
+          {this.noChatsFound() && <NothingFound name="Chats"/>}
           {this.chatErrorOccured() && <Error error={this.props.chatSearchError}/>}
           {this.areChatsLoading() && <Preloader />}
         </div>
