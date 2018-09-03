@@ -47,6 +47,7 @@ class Chat extends Component {
   componentDidUpdate (prevProps) {
     if (this.props.match.params.chatId !== prevProps.match.params.chatId) {
       this.props.fetchChat(this.props.match.params.chatId)
+      joinChat(this.props.match.params.chatId)
     }
     if (this.props.loadChatSuccessfully !== prevProps.loadChatSuccessfully) {
       if (this.props.loadChatSuccessfully) {
