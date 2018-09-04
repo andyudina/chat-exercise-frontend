@@ -11,7 +11,7 @@ const nickname = (state = defaultNickname, action) => {
   switch (action.type) {
     // Get current user
     case RECEIVE_USER_INFO:
-      return action.user.nickname
+      return action.user.nickname || DEFAULT_NICKNAME
     case NICKNAME_UPDATED:
       return action.nickname
     default:
