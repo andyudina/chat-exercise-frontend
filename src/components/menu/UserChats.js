@@ -64,7 +64,7 @@ class UserChats extends Component {
       <div style={userChatsStyle} className="card">
         {
           this.state.chats.map(
-            (chats, i) => <ChatList chats={chats.chats} key={i} name={chats.name} />
+            (chats, i) => <ChatList currentChatId={this.props.currentChatId}chats={chats.chats} key={i} name={chats.name} />
           )
         }
       </div>

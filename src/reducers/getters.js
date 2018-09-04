@@ -47,3 +47,8 @@ export const geCurrentUserChats = (state) => {
     state.currentUserChats,
     state.currentUser._id)
 }
+
+export const getCurrentChatId = (state) => {
+  if (!state.currentChat) { return null }
+  return state.currentChat.chat._id
+}
