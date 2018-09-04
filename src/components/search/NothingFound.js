@@ -5,7 +5,7 @@ import React from 'react'
 const NothingFound = ({ name }) => (
   <div>
     <div className="list-group-item">
-       { name }
+      { name }
     </div>
     <div className="alert alert-warning">
       Ups, nothing was found

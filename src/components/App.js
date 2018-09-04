@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 // Router
-import { ConnectedRouter } from 'react-router-redux'
-import { Route } from 'react-router'
+import { ConnectedRouter } from 'connected-react-router'
+import { Route, Switch } from 'react-router'
 import { history } from 'configure-router'
 
 import Preloader from 'components/Preloader'
@@ -51,15 +51,17 @@ const App = ({ isUserLoaded }) => (
           <div style={appStyle}>
             <ChatMenu />
             <div style={containerStyle}>
-              <Route
-                exact path='/'
-                component={Welcome} />
-              <Route
-                exact path='/set-nickname'
-                component={SetNickname} />
-              <Route
-                path='/chat/:chatId'
-                component={Chat} />
+              <Switch>
+                <Route
+                  exact path='/'
+                  component={Welcome} />
+                <Route
+                  exact path='/set-nickname'
+                  component={SetNickname} />
+                <Route
+                  path='/chat/:chatId'
+                  component={Chat} />
+              </Switch>
             </div>
             <Search />
           </div>

@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux'
+
 // Domain logic
 import currentChat from 'reducers/domain-data/currentChat'
 import currentUserChats from 'reducers/domain-data/currentUserChats'
@@ -16,7 +18,7 @@ import sendMessageState from 'reducers/app-state/sendMessageState'
 import startPrivateChatState from 'reducers/app-state/startPrivateChatState'
 import userNickname from 'reducers/app-state/userNickname'
 
-export default {
+export default combineReducers({
   // Domain logic
   currentChat,
   currentUserChats,
@@ -33,4 +35,4 @@ export default {
   sendMessageState,
   startPrivateChatState,
   userNickname
-}
+})
