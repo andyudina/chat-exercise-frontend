@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react'
 import Preloader from 'components/Preloader'
+import Error from 'components/Error'
 /* eslint-enable no-unused-vars */
 
 /*
@@ -46,19 +47,13 @@ class CreateGroupChat extends Component {
               <div className="card-header">Create group chat</div>
               <div className="input-group">
                 {this.props.errors.general &&
-                  <div className="text-danger">
-                    {this.props.errors.general}
-                  </div>}
+                  <Error error={this.props.errors.general}/>}
                 <input className={'form-control ' + (this.props.errors.nickname ? 'is-invalid' : '')}
                   placeholder="Chat name" name="name"
                   value={this.state.name}
                   onChange={(e) => {
                     this.setState({ name: e.target.value })
                   }}/>
-                {this.props.errors.name &&
-                  <small className="text-danger">
-                    {this.props.errors.name}
-                  </small>}
                 <span className="input-group-append">
                   <button
                     type="submit"
@@ -73,6 +68,8 @@ class CreateGroupChat extends Component {
                   </button>
                 </span>
               </div>
+              {this.props.errors.name &&
+                <Error error={this.props.errors.name}/>}
             </form>
           </div>
         </div>}

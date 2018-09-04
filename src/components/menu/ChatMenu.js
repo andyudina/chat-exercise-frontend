@@ -15,7 +15,8 @@ const chatMenuStyle = {
   display: 'flex',
   flexGrow: 0,
   flexShrink: 0,
-  minWidth: '200px'
+  minWidth: '200px',
+  maxWidth: '300px'
 }
 
 /*
