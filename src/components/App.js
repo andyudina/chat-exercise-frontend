@@ -26,6 +26,7 @@ const appStyle = {
   display: 'flex',
   position: 'absolute',
   alignItems: 'stretch',
+  justifyContent: 'center',
   bottom: 0,
   top: 0,
   right: 0,
@@ -68,7 +69,11 @@ const App = ({ isUserLoaded }) => (
         </ConnectedRouter>
       </RedirectUnauthenticated>
     }
-    {!isUserLoaded && <Preloader/>}
+    {!isUserLoaded &&
+      <div style={appStyle}>
+        <Preloader/>
+      </div>
+    }
   </div>
 )
 

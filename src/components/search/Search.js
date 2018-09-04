@@ -146,6 +146,9 @@ class Search extends Component {
           </span>
         </div>
 
+        {/* Search result - global preloader */}
+        {this.areUsersLoading() && this.areChatsLoading() && <Preloader />}
+
         {/* Search results - users */}
         <div>
           {this.foundUsers() &&
@@ -153,7 +156,7 @@ class Search extends Component {
               results={this.state.users}/>}
           {this.noUsersFound() && <NothingFound name="Users"/>}
           {this.userErrorOccured() && <Error error={this.props.userSearchError}/>}
-          {this.areUsersLoading() && <Preloader />}
+          {this.areUsersLoading() && !this.areChatsLoading() && <Preloader />}
         </div>
 
         {/* Search results - chats */}
@@ -163,7 +166,7 @@ class Search extends Component {
               results={this.props.chats}/>}
           {this.noChatsFound() && <NothingFound name="Chats"/>}
           {this.chatErrorOccured() && <Error error={this.props.chatSearchError}/>}
-          {this.areChatsLoading() && <Preloader />}
+          {this.areChatsLoading() && !this.areUsersLoading() && <Preloader />}
         </div>
       </div>
     )
