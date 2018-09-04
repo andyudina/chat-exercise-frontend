@@ -2,7 +2,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 /* eslint-enable no-unused-vars */
-import MAX_ELEMENTS_IN_LIST from 'app-constants'
+import { MAX_ELEMENTS_IN_LIST } from 'app-constants'
 
 const ChatList = ({ name, chats }) => {
   chats = chats.slice(0, MAX_ELEMENTS_IN_LIST)
